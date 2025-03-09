@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: url('../img/background_menu_image.jpg');
+    background-size: cover; /* Hace que la imagen cubra todo sin deformarse */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#tituloJuego{
+    background-image: url('../img/meow_shooter.png');
+    width: 750px;
+    height: 180px;
+    margin-top: 150px;
+}
+
+#btnPlay{
+    background-image: url('../img/JUGAR.png'); 
+    width: 367px;
+    height: 135px;
+    margin-top: 12vh; /* 25% de la altura de la pantalla */
+    cursor: pointer;
+}
+
+
+#btnPlay:hover{
+    filter: brightness(1.30); /* Aumenta el brillo un 20% */
+}

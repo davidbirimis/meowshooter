@@ -1,0 +1,155 @@
+body {
+    background-image: url('../img/escenario/img_fondoDos.jpg');
+    background-size: 100% 100%; /* Hace que la imagen cubra todo deformándose */
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0px;
+}
+
+#personajeGato{
+    position: absolute;
+    width: 115px;
+    height: 115px;
+    background-image: url('../img/escenario/gato.webp'); /* WEBP animado */
+    background-size: cover;
+    background-position: center;
+    top: 470px;
+    left: 15px;
+}
+
+#padreElementosByC{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;    
+    gap: 20px;
+
+}
+
+#marcadorVelocidad{
+    width: 163px;
+    height: 71px;
+    background-image: url('../img/escenario/1.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+#elementoB {
+    width: 45px;
+    height: auto;
+    position: relative;
+    margin-left: 13px;
+    text-align: center;
+    font-family: 'Bangers', cursive;
+    font-size: 40px;
+    font-weight: bold;
+    color: #FFD700; /* Dorado brillante */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Sombra sutil para contraste */
+}
+
+#marcadorPuntos{
+    width: 163px;
+    height: 71px;
+    background-image: url('../img/escenario/2.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+#marcadorPuntuaje {
+    width: 45px;
+    height: auto;
+    position: relative;
+    margin-left: 13px;
+    text-align: center;
+    font-family: 'Bangers', cursive;
+    font-size: 40px;
+    font-weight: bold;
+    color: #FFD700; /* Dorado brillante */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Sombra sutil para contraste */
+}
+
+#objetivoRaton{
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background-image: url('../img/escenario/raton.gif'); 
+    background-size: cover;
+    background-position: center;
+    display: none;
+}
+
+#proyectilBolaPelo{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background-size: cover;
+    background-position: center;
+    left: 115px;
+    background-image: url('../img/escenario/bolaPeloGris.png'); 
+    display: none;
+}
+
+#divMuted{
+    position: absolute;
+    left: 10px;
+    bottom: 9px;
+    width: 70px;
+    height: 63px;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/escenario/btnMute.png'); 
+}
+
+#divMuted:hover{
+    filter: brightness(1.065); /* Aumenta el brillo un 20% */
+    cursor: pointer;
+}
+
+#divMusica{
+    position: absolute;
+    left: 10px;
+    bottom: 9px;
+    width: 70px;
+    height: 63px;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/escenario/btnSound.png'); 
+    display: none;
+}
+
+#divMusica:hover{
+    filter: brightness(1.065); /* Aumenta el brillo un 20% */
+    cursor: pointer;
+}
+
+#divFinalizarJuego{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 90px;
+    height: 90px;    
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/escenario/closeBtnGame.png'); 
+}
+
+#divFinalizarJuego:hover{
+    cursor: pointer;
+    filter: brightness(1.065); /* Aumenta el brillo un 20% */
+}
+
+#mensajeFinalizarJuego{
+    text-align: center;
+    position: absolute;
+    text-align: center;
+    background-color: aqua;
+    display: none;
+}

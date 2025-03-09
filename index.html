@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <!-- Para detectar tildes -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+
+        <!-- Para que se vea bien en dispositivos móviles -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+
+        <!-- Descripción de la página -->
+        <meta name="description" content="Videojuego de David Pedrosa Azor" /> 
+
+        <!-- Lenguaje de la página -->
+        <meta lang="es" />
+
+        <!-- Link CSS -->
+        <link rel="stylesheet" href="css\index.css" />
+
+        <!-- Titulo de la página-->
+        <title>Videojuego</title>
+
+        <script type="text/javascript">
+
+        function reproducirMusica(){
+            // Crear el objeto de audio con una URL de música real
+            var musicaFondo = new Audio('mp3/musicaFondoMenuInicio.mp3'); // URL de ejemplo
+            musicaFondo.loop = true;  // Repetir la música continuamente
+            musicaFondo.play();  // Reproducir la música
+
+        }
+
+        function empezarJugar(){
+            window.location.href = "escenario.html"; // Redirigir a la página del juego
+        }
+
+
+        </script>       
+
+    </head>
+
+    <body onclick="reproducirMusica()">
+
+        <div id="tituloJuego"></div>
+        <div id="btnPlay" onclick="empezarJugar()"></div>
+
+    </body>
+
+</html>
