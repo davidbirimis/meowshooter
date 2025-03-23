@@ -17,24 +17,47 @@
 
         <!-- Link CSS -->
         <link rel="stylesheet" href="css\index.css" />
+        
+        <link rel="icon" href="img/escenario/gato.webp" type="image/x-icon">
 
         <!-- Titulo de la página-->
-        <title>Videojuego</title>
+        <title>Meow Shooter</title>
 
         <script type="text/javascript">
 
-        function reproducirMusica(){
-            // Crear el objeto de audio con una URL de música real
-            var musicaFondo = new Audio('mp3/musicaFondoMenuInicio.mp3'); // URL de ejemplo
-            musicaFondo.loop = true;  // Repetir la música continuamente
-            musicaFondo.play();  // Reproducir la música
+        let musicaIniciada = false; // Variable de control
 
+        function reproducirMusica(){
+
+            let musicaFondo;
+
+            if ((musicaIniciada) == false) { // Solo iniciar si no ha comenzado
+                musicaFondo = new Audio('mp3/musicaFondoMenuInicio.mp3');
+                musicaFondo.play();
+                musicaFondo.loop = true
+                musicaFondo.volume = 0.3;  // Reducir volumen al 30%
+                musicaIniciada = true; // Marcar que la música ya comenzó
+            }
         }
 
         function empezarJugar(){
-            window.location.href = "escenario.html"; // Redirigir a la página del juego
+
+            document.getElementById("btnPlay").style.display = "none";
+
+            document.getElementById("padreIslas").style.display = "flex";
+            document.getElementById("padreTextosIslas").style.display = "flex";
         }
 
+        function empezarJugarFacil(){
+
+            window.location.href = "escenarioFacil.html";
+        }
+
+        function empezarJugarDificil(){
+
+            window.location.href = "escenarioDificil.html";
+
+        }
 
         </script>       
 
@@ -44,6 +67,16 @@
 
         <div id="tituloJuego"></div>
         <div id="btnPlay" onclick="empezarJugar()"></div>
+
+        <div id="padreTextosIslas">
+            <div id="textoIslaFacil"></div>
+            <div id="textoIslaDificil"></div>
+        </div>
+
+        <div id="padreIslas">
+            <div id="islaFacil" onclick="empezarJugarFacil()"></div>
+            <div id="islaDificil" onclick="empezarJugarDificil()"></div>
+        </div>
 
     </body>
 
