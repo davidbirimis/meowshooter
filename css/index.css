@@ -1,0 +1,129 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: url('../img/background_menu_imageDos.jpg');
+    background-size: cover; /* Hace que la imagen cubra todo sin deformarse */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;  /* Centra horizontalmente */
+}
+
+#tituloJuego{
+    position: absolute;
+    margin-top: 20vh;
+    background-image: url('../img/meow_shooter.png');
+    width: 750px;
+    height: 180px;
+}
+
+#btnPlay{
+    position: absolute;
+    background-image: url('../img/JUGAR.png'); 
+    width: 367px;
+    height: 135px;
+    margin-top: 40vh; 
+    cursor: pointer;
+}
+
+#btnPlay:hover{
+    filter: brightness(1.30); /* Aumenta el brillo un 20% */
+    transform: rotate(2deg); /* Gira ligeramente el botón */
+}
+
+#padreTextosIslas{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 119px;
+    margin-top: 35vh; 
+    gap: 190px;
+    display: none;
+}
+
+#textoIslaFacil{
+    position: relative;
+    width: 272px;
+    height: 119px;
+    transform: scale(0.75); /* Reduce al 70% */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../img/paraisoFelinoCartel.png');
+    cursor: pointer;
+    display: block;
+}
+
+#textoIslaDificil{
+    position: relative;
+    width: 272px;
+    height: 119px;
+    transform: scale(0.75); /* Reduce al 70% */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../img/textoOpcionIslaVolcan.png');
+    cursor: pointer;
+    display: block;
+}
+
+#padreIslas{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 229px;
+    margin-top: 49vh; 
+    gap: 250px;
+    display: none;
+}
+
+#islaFacil {
+    position: relative;
+    width: 240px;
+    height: 229px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../img/islaFacil.png');
+    cursor: pointer;
+
+    /* 
+    - 'transform': Anima cambios como el tamaño de la isla (con 'scale').
+    - 'filter': Anima el brillo de la isla (con 'brightness').
+    - '0.3s': Duración de la animación (0.3 segundos).
+    - 'ease': Tipo de animación que empieza y termina suave.
+    */
+    transition: transform 0.3s ease, filter 0.3s ease;   
+}
+
+#islaFacil:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la isla */
+    filter: brightness(1.30); /* Aumenta el brillo */
+}
+
+#islaDificil {
+    position: relative;
+    width: 210px;
+    height: 229px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../img/islaDificil.png');
+    cursor: pointer;
+
+    /* 
+    - 'transform': Anima cambios como el tamaño de la isla (con 'scale').
+    - 'filter': Anima el brillo de la isla (con 'brightness').
+    - '0.3s': Duración de la animación (0.3 segundos).
+    - 'ease': Tipo de animación que empieza y termina suave.
+    */
+    transition: transform 0.3s ease, filter 0.3s ease; /* Suaviza la animación de transformación y brillo */
+}
+
+#islaDificil:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la isla */
+    filter: brightness(1.30); /* Aumenta el brillo */
+}
