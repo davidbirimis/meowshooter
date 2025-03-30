@@ -108,10 +108,13 @@ body {
     background-image: url('../img/escenario/barraVida1.png');
 }
 
+/* =============================================
+//         RACHAS DE BAJAS Y KEYFRAMES
+// =============================================*/
+
 #divFiveKillStreak{
-    width: 144px;
-    height: 65px;
-    margin-left: 20px; 
+    width: 181px;
+    height: 82px;
     margin-top: 5px;
     background-size: cover;
     background-position: center;
@@ -120,19 +123,211 @@ body {
     display: none;
 }
 
-/* Aquí poner otra foto del canva y cambiar cosillas */
 #divTenKillStreak{
-    width: 144px;
-    height: 65px;
-    margin-left: 20px; 
+    width: 165px;
+    height: 115px;
     margin-top: 5px;
     background-size: cover;
     background-position: center;
     margin-right: auto;
-    background-image: url('../img/escenario/fiveKillStreak.png');
+    background-image: url('../img/escenario/tenKillStreak.png');
     display: none;
 }
 
+#divFifteenKillStreak{
+    width: 137px;
+    height: 115px;
+    margin-top: 5px;
+    background-size: cover;
+    background-position: center;
+    margin-right: auto;
+    background-image: url('../img/escenario/fifteenKillStreak.png');
+    display: none;
+}
+
+#divTwentyKillStreak{
+    width: 314px;
+    height: 94px;
+    margin-top: 5px;
+    background-size: cover;
+    background-position: center;
+    margin-right: auto;
+    background-image: url('../img/escenario/twentyKillStreak.png');
+    display: none;
+}
+
+#divTwentyFiveKillStreak{
+    width: 160px;
+    height: 145px;
+    margin-top: 5px;
+    background-size: cover;
+    background-position: center;
+    margin-right: auto;
+    background-image: url('../img/escenario/twentyFiveKillStreak.png');
+    display: none;
+}
+
+#divThirtyKillStreak{
+    width: 150px;
+    height: 192px;
+    margin-top: 5px;
+    background-size: cover;
+    background-position: center;
+    margin-right: auto;
+    background-image: url('../img/escenario/thirtyKillStreak.png');
+    display: none;
+}
+
+/* KEYFRAMES ÉPICOS */
+@keyframes entradaEpica {
+    0% { 
+        opacity: 0; 
+        transform: translateY(-100vh) rotateZ(-20deg) scale(3); 
+    }
+    70% { 
+        opacity: 1; 
+        transform: translateY(20px) rotateZ(10deg) scale(0.9); 
+    }
+    100% { 
+        transform: translateY(0) rotateZ(0) scale(1); 
+    }
+}
+
+@keyframes vivoEpico {
+    0% { 
+        transform: translateY(0) scale(1) rotateZ(-1deg);
+        filter: drop-shadow(0 0 5px #ff0000);
+    }
+    25% {
+        transform: translateY(-3px) scale(1.02) rotateZ(1deg);
+    }
+    50% { 
+        transform: translateY(0) scale(1.05) rotateZ(-1deg);
+        filter: drop-shadow(0 0 20px #ff0000);
+    }
+    75% {
+        transform: translateY(2px) scale(1.03) rotateZ(0.5deg);
+    }
+    100% { 
+        transform: translateY(0) scale(1) rotateZ(-1deg);
+        filter: drop-shadow(0 0 5px #ff0000);
+    }
+}
+
+@keyframes salidaEpica {
+    0% {
+        opacity: 1;
+        transform: 
+            translateY(0) 
+            scale(1)
+            rotateX(0);
+        filter: 
+            drop-shadow(0 0 10px rgba(255, 0, 0, 0.5))
+            brightness(1);
+    }
+    50% {
+        transform: 
+            translateY(15px) 
+            scale(0.9)
+            rotateX(20deg);
+        filter: 
+            drop-shadow(0 15px 20px rgba(0, 0, 0, 0.7))
+            brightness(0.7);
+    }
+    100% {
+        opacity: 0;
+        transform: 
+            translateY(100px) 
+            scale(0.6)
+            rotateX(45deg);
+        filter: 
+            drop-shadow(0 30px 30px rgba(0, 0, 0, 1))
+            brightness(0.3);
+    }
+}
+
+/* Para 25 bajas */
+@keyframes entradaLegendaria {
+    0% { 
+        opacity: 0;
+        transform: translateY(-100px) rotateZ(-45deg) scale(4);
+        filter: hue-rotate(90deg) blur(10px);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateY(0) rotateZ(0) scale(1);
+        filter: hue-rotate(0) blur(0);
+    }
+}
+
+@keyframes vivoLegendario {
+    0%, 100% { 
+        transform: scale(1) rotateZ(-1deg);
+        filter: drop-shadow(0 0 20px #ff00ff);
+    }
+    50% { 
+        transform: scale(1.1) rotateZ(1deg);
+        filter: drop-shadow(0 0 40px #00ffff);
+    }
+}
+
+@keyframes salidaLegendaria {
+    0% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: scale(3) rotateZ(180deg);
+        filter: blur(15px) brightness(3);
+    }
+}
+
+/* Para 30 bajas (GODLIKE) */
+@keyframes entradaGodlike {
+    0% { 
+        opacity: 0;
+        transform: translate(-50vw, -50vh) rotateX(90deg) scale(10);
+        filter: brightness(5) blur(20px);
+    }
+    100% { 
+        opacity: 1;
+        transform: translate(0, 0) rotateX(0) scale(1);
+        filter: brightness(1) blur(0);
+    }
+}
+
+@keyframes vivoGodlike {
+    0%, 100% { 
+        transform: scale(1);
+        filter: 
+            drop-shadow(0 0 30px gold)
+            hue-rotate(0);
+    }
+    50% { 
+        transform: scale(1.15);
+        filter: 
+            drop-shadow(0 0 50px red)
+            hue-rotate(45deg);
+    }
+}
+
+@keyframes salidaGodlike {
+    0% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: scale(5) rotate(720deg);
+        filter: 
+            blur(30px) 
+            brightness(10)
+            hue-rotate(180deg);
+    }
+}
+
+/* Estas 2 de aqui abajo haber donde las pongo */
 @keyframes brilloDorado {
     0% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FF4500; }
     50% { text-shadow: 0 0 15px #FFD700, 0 0 25px #FFA500, 0 0 35px #FF4500; }
@@ -231,7 +426,7 @@ body {
     background-size: cover;
     background-position: center;
     display: none;
-    border-radius: 50%; 
+    border-radius: 45%; 
     animation: glowing 1.5s ease-in-out infinite; /* Animación de resplandor */
 }
 
@@ -429,4 +624,3 @@ body {
         background-position: center;
         z-index: -1; /* Detrás de todos los elementos del juego */
       }
-      /* ───────────────────────────────────────────────────────────── */
