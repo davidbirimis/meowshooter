@@ -1,0 +1,835 @@
+<html>
+
+    <head>
+
+        <!-- Para detectar tildes -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+
+        <!-- Para que se vea bien en dispositivos móviles -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+
+        <!-- Descripción de la página -->
+        <meta name="description" content="Videojuego de David Pedrosa Azor" /> 
+
+        <!-- Lenguaje de la página -->
+        <meta lang="es" />
+
+        <!-- Link CSS -->
+        <link rel="stylesheet" href="css\escenarioDificil.css" />
+
+        <link rel="icon" href="img/escenario/gato.webp" type="image/x-icon">
+
+        <!-- Titulo de la página-->
+        <title>Meow Shooter</title>
+
+        <script>
+
+            // =============================================
+            //          EVENTOS DE TECLADO
+            // =============================================
+
+            // Variable global para indicar que el juego ha terminado y bloquear eventos de teclado
+            // Se inicializa en false porque al empezar el juego, los eventos de teclado deben funcionar normalmente  
+            let juegoFinalizado = false; 
+            document.addEventListener('keydown', function(event){
+
+                // Cada vez que el usuario presiona una tecla, el código verifica si la variable juegoFinalizado es true.  
+                // Si es true → Se detiene la ejecución y no se ejecuta ningún código dentro del switch.  
+                // Si es false → El código sigue funcionando normalmente.  
+
+                if (juegoFinalizado == true) {
+                    // return → sale de la función y evita que se ejecute el código que viene después
+                    return; 
+                }
+
+                const teclaPresionada = event.key;
+                
+                switch(teclaPresionada){
+                    case "ArrowUp":
+                        moverElementoArriba();
+                        break;
+                    case "ArrowDown":
+                        moverElementoAbajo();
+                        break;
+                    case "+":
+                        incrementarContadorInput();
+                        break;
+                    case "-":
+                        restarContadorInput();
+                        break;
+                    case " ":
+                        aparecerObjetivo();
+                        break;
+                    case "Enter":
+                        lanzarProyectil();
+                        break;
+                }
+            });
+
+            // =============================================
+            //       MOVIMIENTO DEL PERSONAJE (GATO)
+            // =============================================
+
+            function moverElementoArriba(){
+
+                const personajeGato = document.getElementById("personajeGato");
+                const elementoB = document.getElementById("elementoB");
+
+                const padreMarcadoresAltura = document.getElementById("padreElementosByC").offsetHeight;
+
+                let posicionTop = personajeGato.offsetTop;
+                
+                let valorInput = parseInt(elementoB.innerHTML);
+
+                personajeGato.style.backgroundImage = "url('img/escenario/gatoRun.webp')";
+
+                posicionTop = posicionTop - valorInput;
+
+                if(posicionTop < padreMarcadoresAltura){
+                    personajeGato.style.top = padreMarcadoresAltura;
+                } else {
+                    personajeGato.style.top = posicionTop + "px";  
+                }
+            }
+
+            function moverElementoAbajo(){
+
+                const personajeGato = document.getElementById("personajeGato");
+                const elementoB = document.getElementById("elementoB");
+
+                const finalizarJuegoX = document.getElementById("divFinalizarJuego").offsetHeight;
+
+                let posicionTop = personajeGato.offsetTop;
+
+                let valorInput = parseInt(elementoB.innerHTML);
+
+                personajeGato.style.backgroundImage = "url('img/escenario/gatoRun.webp')";
+
+                posicionTop = posicionTop + valorInput;
+
+                if(posicionTop + personajeGato.offsetHeight >= window.innerHeight - finalizarJuegoX){
+                    personajeGato.style.top = window.innerHeight - personajeGato.offsetHeight - finalizarJuegoX;
+                } else {
+                    personajeGato.style.top = posicionTop + "px";
+                }
+            }
+            
+            // =============================================
+            //    GESTIÓN DEL CONTADOR DE VELOCIDAD (B)
+            // =============================================-
+
+            function incrementarContadorInput(){
+                
+                const elementoB = document.getElementById("elementoB");
+                const elementoBValor = parseInt(elementoB.innerHTML);
+
+                elementoB.innerHTML = elementoBValor + 1;
+            }
+
+            function restarContadorInput(){
+                
+                const elementoB = document.getElementById("elementoB");
+                const elementoBValor = parseInt(elementoB.innerHTML);
+
+                if (elementoBValor > 0){
+                    elementoB.innerHTML = elementoBValor - 1;
+                } 
+            }
+
+            // =============================================
+            //      APARECER OBJETIVO (RATÓN)
+            // =============================================
+
+            function aparecerObjetivo(){
+
+                const personajeGato = document.getElementById("personajeGato");
+                const finalizarJuegoX = document.getElementById("divFinalizarJuego");
+
+                const objetivo = document.getElementById("objetivoRaton");
+
+                // Para que el limite sea el contenedor superior
+                const padreMarcadores = document.getElementById("padreElementosByC");
+                
+                let minLeft = window.innerWidth / 2;
+                let maxLeft = window.innerWidth - objetivo.offsetWidth;
+                let minTop = padreMarcadores.offsetHeight + personajeGato.offsetHeight / 2; // Top minimo altura padreMarcadores
+                let maxTop = window.innerHeight - objetivo.offsetHeight - finalizarJuegoX.offsetHeight - personajeGato.offsetHeight / 2;
+
+                let valorLeft = Math.floor(Math.random() * (maxLeft - minLeft + 1)) + minLeft;
+                let valorTop = Math.floor(Math.random() * (maxTop - minTop + 1)) + minTop;
+
+                objetivo.style.left = valorLeft + "px";
+                objetivo.style.top = valorTop + "px";
+
+                objetivo.style.backgroundImage = "url('img/escenario/ratonMalvadoRotadoIzq.gif')"; 
+
+                objetivo.style.display = "block";
+
+                disparoAutomaticoRaton();
+            }
+
+            function reaparecerObjetivo() {
+
+                const objetivo = document.getElementById("objetivoRaton");
+                const powerup2x = document.getElementById("powerup2x");
+
+                // Verificar si la imagen de fondo es 'apuesta.png'
+                const fondoActual = objetivo.style.backgroundImage;
+                let tiempoRetraso = 470;
+
+                // Usar el retraso correspondiente antes de volver a mostrar el objetivo
+                setTimeout(() => {
+                    aparecerObjetivo(); 
+                }, tiempoRetraso);
+            }
+            
+            // =============================================
+            //         DISPARO DE PROYECTILES
+            // =============================================
+
+            let bloquearEnter = false;  // Inicialmente no está bloqueado
+
+            async function lanzarProyectil() {
+                if (bloquearEnter) {
+                    return; // Si está bloqueado, no hacer nada
+                }
+                bloquearEnter = true;  // Bloquear la tecla Enter durante la ejecución
+
+                const proyectil = document.getElementById("proyectilBolaPelo");
+                const personajeGato = document.getElementById("personajeGato");
+                const alturaDisparo = personajeGato.offsetTop + personajeGato.offsetHeight / 2;
+                const objetivo = document.getElementById("objetivoRaton");
+
+                // Colocar el proyectil a la altura de disparo y hacer que aparezca
+                proyectil.style.top = alturaDisparo;
+                proyectil.style.display = "block";
+
+                // Ejecutar el sonido de lanzamiento antes de mostrar el proyectil
+                efectoSonidoLanzamiento();
+
+                // Mover el proyectil hacia la derecha y comprobar colisiones en cada iteración
+                while (proyectil.offsetLeft < window.innerWidth - proyectil.offsetWidth && detectarImpacto() == false) {
+                    proyectil.style.left = proyectil.offsetLeft + 4 + "px";
+                    await new Promise(resolve => setTimeout(resolve, 1));
+                }
+
+                const resultado = detectarImpacto();
+                if (resultado === "powerup") {
+                    // Se detectó impacto con el powerup
+                    efectoSonidoImpactoPowerUp();
+                    document.getElementById("powerup2x").style.display = "none";
+                    activarPowerUp();
+                } else if (resultado === "objetivo") {
+                    // Se detectó impacto con el ratón
+                    efectoSonidoImpacto();
+                    actualizarMarcador(5 * multiplicador);
+                    objetivo.style.backgroundImage = "url('img/escenario/Preview.gif')";
+                    reaparecerObjetivo();
+                    contadorBajas = contadorBajas + 1;
+                    rachaBajas();
+                    aparecerYDesaparecerPowerUp(); 
+                }
+
+                // Si no hubo impacto, el proyectil llegó al final sin acierto
+                if (proyectil.offsetLeft >= window.innerWidth - proyectil.offsetWidth) {
+                    proyectil.style.display = "none";
+                    actualizarMarcador(-15);
+                    restarVidaPersonaje();
+                    efectoDanoPersonaje();
+                    contadorBajas = 0;
+                }
+
+                // Reiniciar la posición del proyectil
+                proyectil.style.left = personajeGato.offsetLeft + personajeGato.offsetWidth + "px";
+                proyectil.style.top = alturaDisparo + "px";
+                proyectil.style.display = "none";
+                bloquearEnter = false;
+            }
+
+            // NUEVA FUNCIÓN: disparo del ratón
+            function disparoAutomaticoRaton() {
+
+                if (document.getElementById("objetivoRaton").style.display !== "block") {
+                    return;
+                }
+            }
+                
+            // =============================================
+            //       DETECCIÓN DE COLISIONES
+            // =============================================
+
+            let contadorBajas = 0; // Variable global para el killStreak
+
+            function detectarImpacto(){
+
+                const proyectil = document.getElementById("proyectilBolaPelo");
+                const objetivo = document.getElementById("objetivoRaton");
+                const powerup = document.getElementById("powerup2x");
+
+                // Obtener las posiciones y dimensiones
+                const proyectilTop = proyectil.offsetTop;
+                const proyectilLeft = proyectil.offsetLeft;
+                const proyectilWidth = proyectil.offsetWidth;
+                const proyectilHeight = proyectil.offsetHeight;
+
+                const objetivoTop = objetivo.offsetTop;
+                const objetivoLeft = objetivo.offsetLeft;
+                const objetivoWidth = objetivo.offsetWidth;
+                const objetivoHeight = objetivo.offsetHeight;
+
+                // Si el powerup está visible, comprobar colisión con él
+                if (powerup.style.display === "block") {
+                    if (
+                        proyectil.offsetTop < powerup.offsetTop + powerup.offsetHeight &&
+                        proyectil.offsetTop + proyectil.offsetHeight > powerup.offsetTop &&
+                        proyectil.offsetLeft < powerup.offsetLeft + powerup.offsetWidth &&
+                        proyectil.offsetLeft + proyectil.offsetWidth > powerup.offsetLeft
+                    ) {
+                        return "powerup";
+                    }
+                }
+
+                // Comprobar colisión con él objetivo
+                if ( 
+                    proyectilTop >= objetivoTop - proyectilHeight && 
+                    proyectilTop <= objetivoTop + objetivoHeight && 
+                    proyectilLeft >= objetivoLeft - proyectilWidth && 
+                    proyectilLeft <= objetivoLeft + objetivoWidth
+                ){ 
+                    return "objetivo";
+                } else { 
+                    return false; // Si no impacta el en objetivo devuelve "false"
+                }
+            }
+
+            // =============================================
+            //    GESTIÓN DE PUNTUACIÓN Y RACHA DE BAJAS
+            // =============================================
+
+            function actualizarMarcador (numeroIncremento){
+
+                const marcador = document.getElementById("marcadorPuntuaje");
+                marcador.innerHTML = parseInt(marcador.innerHTML) + numeroIncremento;    
+            }
+
+            function rachaBajas() {   
+
+                const cartelQuinceBajas = document.getElementById("divFifteenKillStreak");
+                const cartelVeinteBajas = document.getElementById("divTwentyKillStreak");
+                const cartelVeinteCincoBajas = document.getElementById("divTwentyFiveKillStreak");
+                const cartelTreintaBajas = document.getElementById("divThirtyKillStreak");
+
+                switch (contadorBajas) {
+                                        
+                    case 1:
+                        efectosRachaCincoBajas();
+                        break;
+                        
+                    case 2:
+                        efectosRachaDiezBajas();
+                        break;
+
+                    case 3:
+                        efectosRachaQuinceBajas();
+                        break;
+                        
+                    case 4:
+                        efectosRachaVeinteBajas();
+                        break;
+
+                    case 5:
+                        efectosRachaVeinteCincoBajas();
+                        break;
+
+                    case 6:
+                        efectosRachaTreintaBajas();
+                        break;
+                }
+            }
+
+            // =============================================
+            //      GESTIÓN DE VIDAS Y DAÑO
+            // =============================================
+
+            // Variable de ambito global para que cuando entre en la funcion "contadorFallarDisparo"
+            // no la inicialice siempre en "0 + 1"
+            let contadorFallarDisparo = 0;
+
+            function restarVidaPersonaje(){
+
+                const barraVida = document.getElementById("marcadorVida");
+
+                contadorFallarDisparo = contadorFallarDisparo + 1;
+
+                switch (contadorFallarDisparo) {
+                    case 1:
+                        sonidoRestarVida()
+                        barraVida.style.backgroundImage = "url('img/escenario/barraVida2.png')";
+                        break;
+                    case 2:
+                        sonidoRestarVida()
+                        barraVida.style.backgroundImage = "url('img/escenario/barraVida3.png')";
+                        break;
+                    case 3:
+                        sonidoRestarVida()
+                        barraVida.style.backgroundImage = "url('img/escenario/barraVida4.png')";
+                        break;
+                    case 4:
+                        sonidoRestarVida()
+                        barraVida.style.backgroundImage = "url('img/escenario/barraVida5.gif')";
+                        break;
+                    case 5:
+                        sonidoRestarVida()
+                        barraVida.style.display = "none";
+                        finalizarJuego()
+                        break;
+                }
+            }
+
+            function efectoDanoPersonaje(){
+
+                const gato = document.getElementById("personajeGato");
+
+                gato.style.animation = "dano 0.2s ease-in-out 3";
+
+                setTimeout(() => {
+                    gato.style.animation = "";  // Elimina la animación
+                }, 600);
+            }
+
+            // =============================================
+            //          EFECTOS DE SONIDO
+            // =============================================
+
+            function efectoSonidoImpacto() {
+
+                const impactoSonido = new Audio('mp3/impacto_sonido_hitmarker_objetivo.mp3'); 
+                impactoSonido.play();
+            }
+
+            function efectoSonidoLanzamiento(){
+
+                const sonidoDisparo = new Audio('mp3/short-fireball-woosh-6146.mp3'); 
+                sonidoDisparo.play();
+            }
+
+            function sonidoRestarVida(){
+
+                const efectoSonido = new Audio('mp3/hitSoundMinecraft.mp3'); 
+                efectoSonido.play();
+            }
+            
+            function efectoSonidoImpactoPowerUp(){
+
+                const efectoSonido = new Audio('mp3/powerup.mp3'); 
+                efectoSonido.play();
+            }
+
+            // =============================================
+            //          EFECTOS RACHAS DE BAJAS
+            // =============================================
+
+            function efectosRachaCincoBajas() {
+
+                const cartelCincoBajas = document.getElementById("divFiveKillStreak");
+
+                new Audio('mp3/rachaCincoBajas.mp3').play();
+                cartelCincoBajas.style.display = "block";
+                cartelCincoBajas.style.animation = "entradaEpica 0.8s cubic-bezier(0, 0.9, 0.5, 1.5)";
+
+                setTimeout(() => {
+                    cartelCincoBajas.style.animation = "vivoEpico 1.2s ease-in-out infinite";
+                }, 800);
+
+                setTimeout(() => {
+                    cartelCincoBajas.style.animation = "salidaEpica 0.5s ease-in";
+                    setTimeout(() => {
+                        cartelCincoBajas.style.display = "none";
+                    }, 500);
+                }, 5000);
+            }
+
+            function efectosRachaDiezBajas() {
+
+                const cartelDiezBajas = document.getElementById("divTenKillStreak");
+
+                new Audio('mp3/rachaDiezBajas.mp3').play();
+                cartelDiezBajas.style.display = "block";
+                cartelDiezBajas.style.animation = "entradaEpica 0.8s cubic-bezier(0, 0.9, 0.5, 1.5)";
+
+                setTimeout(() => {
+                    cartelDiezBajas.style.animation = "vivoEpico 1.2s ease-in-out infinite";
+                }, 800);
+
+                setTimeout(() => {
+                    cartelDiezBajas.style.animation = "salidaEpica 0.5s ease-in";
+                    setTimeout(() => {
+                        cartelDiezBajas.style.display = "none";
+                    }, 500);
+                }, 5000);
+            }
+
+            function efectosRachaQuinceBajas() {
+
+                const cartelQuinceBajas = document.getElementById("divFifteenKillStreak");
+
+                new Audio('mp3/rachaQuinceBajas.mp3').play();
+                cartelQuinceBajas.style.display = "block";
+                cartelQuinceBajas.style.animation = "entradaEpica 0.8s cubic-bezier(0, 0.9, 0.5, 1.5)";
+
+                setTimeout(() => {
+                    cartelQuinceBajas.style.animation = "vivoEpico 1.2s ease-in-out infinite";
+                }, 800);
+
+                setTimeout(() => {
+                    cartelQuinceBajas.style.animation = "salidaEpica 0.5s ease-in";
+                    setTimeout(() => {
+                        cartelQuinceBajas.style.display = "none";
+                    }, 500);
+                }, 5000);
+            }
+
+            function efectosRachaVeinteBajas() {
+
+                const cartelVeinteBajas = document.getElementById("divTwentyKillStreak");
+
+                new Audio('mp3/rachaVeinteBajas.mp3').play();
+                cartelVeinteBajas.style.display = "block";
+                cartelVeinteBajas.style.animation = "entradaEpica 0.8s cubic-bezier(0, 0.9, 0.5, 1.5)";
+
+                setTimeout(() => {
+                    cartelVeinteBajas.style.animation = "vivoEpico 1.2s ease-in-out infinite";
+                }, 800);
+
+                setTimeout(() => {
+                    cartelVeinteBajas.style.animation = "salidaEpica 0.5s ease-in";
+                    setTimeout(() => {
+                        cartelVeinteBajas.style.display = "none";
+                    }, 500);
+                }, 5000);
+            }
+
+            function efectosRachaVeinteCincoBajas() {
+
+                const cartelVeinteCincoBajas = document.getElementById("divTwentyFiveKillStreak");
+
+                new Audio('mp3/rachaVeinteCincoBajas.mp3').play();
+                cartelVeinteCincoBajas.style.display = "block";
+                cartelVeinteCincoBajas.style.animation = "entradaLegendaria 1s cubic-bezier(0.1, 0.8, 0.2, 1.5)";
+
+                setTimeout(() => {
+                    cartelVeinteCincoBajas.style.animation = "vivoLegendario 1s ease-in-out infinite";
+                }, 1000);
+
+                setTimeout(() => {
+                    cartelVeinteCincoBajas.style.animation = "salidaLegendaria 0.7s ease-in";
+                    setTimeout(() => {
+                        cartelVeinteCincoBajas.style.display = "none";
+                    }, 700);
+                }, 6000); // 1 segundo extra de visualización
+            }
+
+            function efectosRachaTreintaBajas() {
+
+                const cartelTreintaBajas = document.getElementById("divThirtyKillStreak");
+
+                new Audio('mp3/rachaTreintaBajas.mp3').play();
+                cartelTreintaBajas.style.display = "block";
+                cartelTreintaBajas.style.animation = "entradaGodlike 1.2s cubic-bezier(0, 0.8, 0.1, 1.8)";
+
+                setTimeout(() => {
+                    cartelTreintaBajas.style.animation = "vivoGodlike 0.8s ease-in-out infinite";
+                }, 1200);
+
+                setTimeout(() => {
+                    cartelTreintaBajas.style.animation = "salidaGodlike 1s ease-in";
+                    setTimeout(() => {
+                        cartelTreintaBajas.style.display = "none";
+                    }, 1000);
+                }, 7000); // 2 segundos extra de visualización
+            }
+
+            // =============================================
+            //          POWER-UPS Y BONUS
+            // =============================================
+
+            function aparecerYDesaparecerPowerUp(){
+                // Probabilidad del 15% que aparezca el powerup
+                const probabilidad = 0.95;
+
+                const objetivo = document.getElementById("objetivoRaton");
+                const powerup2x = document.getElementById("powerup2x");
+
+                // Generar un número aleatorio entre 0 y 1
+                let numeroAleatorio = Math.random();
+
+                if (numeroAleatorio < probabilidad) {
+
+                    setTimeout(() => {
+                        powerup2x.style.display = "block";
+                        powerup2x.style.left = objetivo.offsetLeft;
+                        powerup2x.style.top = objetivo.offsetTop;
+
+                    }, 460); // Tiempo de esp era para dar tiempo a la animacion de explosion
+
+                    // Hacer que el powerup desaparezca después de 5 segundos
+                    /*setTimeout(() => {
+                        powerup2x.style.display = "none"; // Ocultar el powerup después de 5 segundos
+                    }, 5000);*/
+
+                } 
+            }
+
+            let multiplicador = 1;
+            function activarPowerUp() {
+
+                const maderaTemporizadorPuntosDobles = document.getElementById("maderaTemporizadorPuntosDobles");
+                const temporizadorPuntosDobles = document.getElementById("marcadorPuntosDobles");
+                let valorTemporizadorPuntosDobles = parseInt(temporizadorPuntosDobles.innerHTML);
+
+                maderaTemporizadorPuntosDobles.style.display = "flex";
+
+                if (valorTemporizadorPuntosDobles > 0) {
+                    multiplicador = 2;  // Activamos el PowerUp, el multiplicador se duplica
+                    musicaPowerupX2(); // Activamos la musica
+
+                    let tiempoRestante = valorTemporizadorPuntosDobles;
+
+                    // Iniciamos el temporizador
+                    reducirTemporizador();
+
+                    // Función recursiva ( función que se llama a sí misma dentro de su propio cuerpo)
+                    // para reducir el temporizador cada segundo
+                    function reducirTemporizador() {
+
+                        if (tiempoRestante > 0) {
+                            tiempoRestante--;
+                            temporizadorPuntosDobles.innerHTML = tiempoRestante;
+                            efectoPowerUpPersonaje()
+
+                            // Aplicar parpadeo en los últimos 5 segundos
+                            if (tiempoRestante <= 5) {
+                                aplicarEfectoParpadeo(maderaTemporizadorPuntosDobles);
+                            }
+                        
+                            // Llamamos a la misma función después de 1 segundo
+                            setTimeout(reducirTemporizador, 1000);
+
+                        } else {
+                            multiplicador = 1;  // Restauramos el multiplicador cuando el tiempo llega a 0
+                            maderaTemporizadorPuntosDobles.style.display = "none";
+
+                            // Reiniciamos el temporizador a su valor inicial (30)
+                            temporizadorPuntosDobles.innerHTML = 15;
+                        }
+                    }
+                }
+            }
+            
+            function aplicarEfectoParpadeo(maderaTemporizadorPuntosDobles) {
+                
+                // Añadimos la animación de parpadeo al cartel
+                maderaTemporizadorPuntosDobles.style.animation = "parpadeo 1s ease-in-out infinite"; 
+
+                // Después de 5 segundos, eliminamos la animación
+                setTimeout(() => {
+                    // Elimina la animación después de 5 segundos
+                    maderaTemporizadorPuntosDobles.style.animation = ""; 
+                }, 5000);
+            }
+
+            function efectoPowerUpPersonaje() {
+                const gato = document.getElementById("personajeGato");
+
+                gato.style.animation = "powerup 1s ease-in-out infinite";
+
+                setTimeout(() => {
+                    gato.style.animation = "";  // Elimina la animación después de un ciclo completo
+                }, 1000);
+            }
+
+            // =============================================
+            //          CONTROL DE MÚSICA
+            // =============================================
+ 
+            function activarMusica() {
+
+                const musicaFondo = new Audio('mp3/musicaFondoEscenarioDificil.mp3'); 
+
+                // Guardar la música dentro del botón de música, para poder usarla después se necesite
+                document.getElementById("divMusica").atributoMusicaFondo = musicaFondo;
+
+                musicaFondo.loop = true;  
+                musicaFondo.muted = false; // Se activa el sonido
+                musicaFondo.volume = 0.25;  // Reducir volumen al 25%
+                musicaFondo.play();
+
+                // Mostrar botón de sonido y ocultar botón de mute
+                document.getElementById("divMuted").style.display = "none"; 
+                document.getElementById("divMusica").style.display = "block"; 
+            }
+
+            function desactivarMusica() {
+
+                // Conseguir la música guardada anteriormente en el botón
+                const musicaFondo = document.getElementById("divMusica").atributoMusicaFondo;
+                musicaFondo.muted = true; // Silenciar la música 
+
+                document.getElementById("divMusica").style.display = "none"; 
+                document.getElementById("divMuted").style.display = "block"; 
+            }
+
+            let musicaFondo = false; // Variable global para la música
+            function musicaPowerupX2() {
+                // Si la música no está reproducida o está detenida, empezar a reproducirla
+                if (musicaFondo == false) {
+                    musicaFondo = new Audio('mp3/musicaPowerupX2.mp3');
+                    musicaFondo.loop = true;  
+                    musicaFondo.play();
+                    
+                    // Detener la música después de 15 segundos
+                    setTimeout(() => {
+                        detenerMusicaPowerUp();  // Llama a la función para detener la música después de 15 segundos
+                    }, 15000); // 15000 ms = 15 segundos
+                }
+            }
+
+            function detenerMusicaPowerUp() {
+                if (musicaFondo) {
+                    musicaFondo.pause(); // Detiene la música
+                    musicaFondo.currentTime = 0; // Reinicia la canción al principio
+                    musicaFondo = false; // Marca la música como detenida
+                }
+            }
+
+            // =============================================
+            //         FINALIZACIÓN DEL JUEGO
+            // =============================================
+                    
+            function finalizarJuego() {
+
+                juegoFinalizado = true; // Bloquea los eventos del teclado
+
+                // Ocultar elementos de la pantalla
+                document.getElementById("personajeGato").style.display = "none";
+                document.getElementById("objetivoRaton").style.display = "none";
+                
+                document.getElementById("marcadorVida").style.display = "none";
+
+                document.getElementById("maderaVelocidad").style.display = "none";
+                document.getElementById("elementoB").style.display = "none";
+
+                document.getElementById("maderaPuntuaje").style.display = "none";
+                document.getElementById("marcadorPuntuaje").style.display = "none";
+
+                document.getElementById("divMusica").style.display = "none"; 
+                document.getElementById("divMuted").style.display = "none"; 
+
+                document.getElementById("divFinalizarJuego").style.display = "none";
+
+                // posFondo es la variable que guarda la posición del fondo en el eje X (horizontal) del body
+                posFondo = 0; // Restablecer la posición del fondo a 0 para que al finalizar el juego la imagen de fondo no aparezca desplazada
+                document.body.style.backgroundImage = "url('img/escenario/finalScreen2.jpg')";
+
+                document.getElementById("invisibleFinJuego").style.display = "flex";
+
+                document.getElementById("maderaFinalJuegoPuntos").style.display = "flex";
+
+                // Mostrar los elementos finales
+                const mensajeFinal = document.getElementById("mensajeFinalizarJuego");
+                mensajeFinal.style.display = "block"; 
+                mensajeFinal.innerHTML = marcadorPuntuaje.innerHTML;
+
+                document.getElementById("btnHome").style.display = "block";
+                document.getElementById("btnRetry").style.display = "block";
+            }
+
+            // =============================================
+            //              NAVEGACIÓN
+            // =============================================
+
+            function volverPantallaPrincipal(){
+                
+                window.location.href = "index.html";
+            }
+
+            function volverAjugar(){
+                
+                window.location.href = "escenarioDificil.html";
+            }
+
+            // =============================================
+            //         MOVIMIENTO DEL FONDO
+            // =============================================
+
+            // Mover fondo infinitamente
+            let posFondo = 0; // La posición inicial del fondo es 0 (empieza desde la derecha)
+            let velocidadFondo = 0.5; // La velocidad con la que se mueve el fondo (más pequeño es más lento)
+
+            // Esta función mueve el fondo hacia la izquierda
+            function moverFondo() {
+                posFondo = posFondo - velocidadFondo; // Restamos la velocidad a la posición actual para mover el fondo hacia la izquierda
+                document.body.style.backgroundPositionX = posFondo + "px"; // Actualizamos la posición del fondo en el eje X (hacia la izquierda)
+
+                // Si el juego no ha terminado, seguimos moviendo el fondo
+                if (!juegoFinalizado) {
+                    requestAnimationFrame(moverFondo); // Pide al navegador que ejecute la función de nuevo en el siguiente momento disponible para mantener el movimiento
+                }
+            }
+
+            // Cuando la página carga llama a la función que empieza a mover el fondo
+            window.onload = function() {
+                moverFondo(); 
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+
+        <div id="padreElementosByC">
+
+            <div id="marcadorVida"></div>
+
+            <div id="divFiveKillStreak"></div>
+            <div id="divTenKillStreak"></div>
+            <div id="divFifteenKillStreak"></div>
+            <div id="divTwentyKillStreak"></div>
+            <div id="divTwentyFiveKillStreak"></div>
+            <div id="divThirtyKillStreak"></div>
+
+            <div id="maderaTemporizadorPuntosDobles">
+                <div id="marcadorPuntosDobles">15</div>
+            </div>
+
+            <div id="maderaVelocidad">
+                <div id="elementoB">10</div>
+            </div>
+
+            <div id="maderaPuntuaje">
+                <div id="marcadorPuntuaje">0</div>
+            </div>
+
+        </div>
+
+        <div id="personajeGato"></div>
+        <div id="proyectilBolaPelo"></div>
+        <div id="objetivoRaton"></div>
+        <div id="explosionGif"></div>
+        <div id="powerup2x"></div>
+
+        <div id="divMusica" onclick="desactivarMusica()"></div>
+        <div id="divMuted" onclick="activarMusica()"></div>
+        <div id="divFinalizarJuego" onclick="finalizarJuego()"></div>
+        
+        <div id="invisibleFinJuego">
+            <div id="maderaFinalJuegoPuntos">        
+                <div id="mensajeFinalizarJuego"></div>
+                <div id="btnHome" onclick="volverPantallaPrincipal()"></div>
+                <div id="btnRetry" onclick="volverAjugar()"></div>
+            </div>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <!-- Para detectar tildes -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+
+        <!-- Para que se vea bien en dispositivos móviles -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+
+        <!-- Descripción de la página -->
+        <meta name="description" content="Videojuego de David Pedrosa Azor" /> 
+
+        <!-- Lenguaje de la página -->
+        <meta lang="es" />
+
+        <!-- Link CSS -->
+        <link rel="stylesheet" href="css\index.css" />
+        
+        <link rel="icon" href="img/escenario/gato.webp" type="image/x-icon">
+
+        <!-- Titulo de la página-->
+        <title>Meow Shooter</title>
+
+        <script type="text/javascript">
+
+        let musicaIniciada = false; // Variable global de control
+
+        function reproducirMusica(){
+            let musicaFondo;
+
+            if ((musicaIniciada) == false) { // Solo iniciar si no ha comenzado
+                musicaFondo = new Audio('mp3/musicaFondoMenuInicio.mp3');
+                musicaFondo.play();
+                musicaFondo.loop = true;
+                musicaFondo.volume = 0.1;  // Reducir volumen al 10% para música de fondo
+                musicaIniciada = true; // Marcar que la música ya comenzó
+            }
+        }
+
+        function empezarJugar() {
+            // Reproducir el sonido de la animación del botón
+            new Audio('mp3/wooshbotonJugarmp3.mp3').play();
+
+            // Primero, oscurecemos la pantalla
+            document.getElementById('fondoOscuro').classList.add('cargarPantalla');
+
+            // Añadir la animación para hacer subir el botón de play
+            document.getElementById("btnPlay").classList.add("subirBoton");
+
+            // Después de que termine la animación, cambiamos el fondo y mostramos el resto
+            setTimeout(() => {
+                // Cambiar el fondo al fondo del juego
+                document.body.style.backgroundImage = "url('img/fondoNubesDos.png')";
+                
+                // Ocultar el botón de Play
+                document.getElementById("btnPlay").style.display = "none";
+                
+                // Mostrar los elementos del juego
+                document.getElementById("padreIslas").style.display = "flex";
+                document.getElementById("padreTextosIslas").style.display = "flex";
+                
+                // Agregar la animación flotante a las islas
+                document.getElementById("islaFacil").classList.add("flotarIsla");
+                document.getElementById("islaDificil").classList.add("flotarIsla");
+
+                // Eliminar el fondo oscuro después de la animación
+                document.getElementById('fondoOscuro').classList.remove('cargarPantalla');
+            }, 1600); // Tiempo que debe durar la animación (1.6 segundos)
+        }
+
+        function empezarJugarFacil() {
+
+            new Audio('mp3/confirmacionEntradaIsla.mp3').play();
+
+            // Agregar la clase de animación a la isla fácil
+            document.getElementById("islaFacil").classList.add("entrarIsla");
+            
+            // Después de la animación, redirigir
+            setTimeout(() => {
+                window.location.href = "escenarioFacil.html";
+            }, 1080); // Tiempo de la animación
+        }
+
+        function empezarJugarDificil() {
+
+            new Audio('mp3/confirmacionEntradaIsla.mp3').play();
+
+            // Agregar la clase de animación a la isla difícil
+            document.getElementById("islaDificil").classList.add("entrarIsla");
+            
+            // Después de la animación, redirigir
+            setTimeout(() => {
+                window.location.href = "escenarioDificil.html";
+            }, 1080); // Tiempo de la animación
+        }
+
+        function reproducirHover() {
+            new Audio('mp3/hoverIsla.mp3').play();
+        }
+        
+        </script>       
+
+    </head>
+
+    <body onclick="reproducirMusica()">
+
+        <!-- Fondo oscuro -->
+        <div id="fondoOscuro"></div>
+        
+        <!-- <div id="tituloJuego"></div> -->
+        <div id="btnPlay" onclick="empezarJugar()"></div>
+
+        <div id="padreTextosIslas">
+            <div id="textoIslaFacil"></div>
+            <div id="textoIslaDificil"></div>
+        </div>
+
+        <div id="padreIslas">
+            <div id="islaFacil" onclick="empezarJugarFacil()" onmouseover="reproducirHover()"></div>
+            <div id="islaDificil" onclick="empezarJugarDificil()" onmouseover="reproducirHover()"></div>
+        </div>
+
+    </body>
+
+</html>
